@@ -70,6 +70,13 @@ Dialog.prototype = {
 	* ¹Ø±Õ
 	*/
 	close : function(){
+
+	},
+
+	/**
+	* ËøÆÁ
+	*/
+	lock : function(){
 		var self = this;
 
 		if(self.locked){
@@ -87,12 +94,6 @@ Dialog.prototype = {
 
 		maskWrap.style.cssText = sizeCss + ';position:fixed;z-index:'+zIndex + ';top:0;left:0;overflow:hidden;' + ie6Css;
 		mask.style.cssText = 'height:100%;background:' + config.background + ';filter:alpha(opacity=0);opacity:0;';
-	},
-
-	/**
-	* ËøÆÁ
-	*/
-	lock : function(){
 	},
 
 	/**
