@@ -1,3 +1,5 @@
+var DOM = QQVIP.dom;
+var UA = QZFL.userAgent;
 function Dialog(config, okFn, cancelFn){
 	config = config || {};
 
@@ -8,10 +10,13 @@ function Dialog(config, okFn, cancelFn){
 	var setting = Dialog.setting;
 
 	for(var p in setting){
-		if(setting[p] === undefined){
+		if(config[p] === undefined){
 			config[p] = setting[p];
 		}
 	}
+	this.config = config;
+
+	this.lock();
 }
 
 Dialog.prototype = {
@@ -41,7 +46,22 @@ Dialog.prototype = {
 	* @param	{Number, String}
 	*/
 	position : function(left, top){
-	
+		var self = this,
+			left = left || 0,
+			top = top || 0,
+			config = self.config,
+			wrap = self.wrap,
+			docLeft = ,
+			docTop = ,
+			winWidth = ,
+			winHeight = ,
+			wrapWidth = wrap.offsetWidth,
+			wrapHeight = wrap.offsetHeight,
+			style = wrap.style;
+
+		style.top = top + 'px';
+		style.left = left + 'px';
+
 	},
 
 	/**
@@ -84,16 +104,18 @@ Dialog.prototype = {
 		}
 
 		var zIndex = Dialog.setting.zIndex - 1,
+			isIE6 = UA.ie === 6,
 			config = self.config,
-			docWidth = ,
-			docHeight = ,
+			docWidth = DOM.getClientWidth(),
+			docHeight = DOM.getClientHeight(),
 			maskWrap = self.maskWrap || document.body.appendChild(document.createElement('div')),
 			mask = self.mask || maskWrap.appendChild(document.createElement('div')),
+			domTxt = '(document).documentElement',
 			sizeCss = 'width:100%;height:100%',
 			ie6Css = isIE6 ? 'position:absolute;left:expression(' + domTxt + '.scrollLeft);top:expression(' + domTxt + '.scrollTop);width:expression(' + domTxt + '.clientWidth);height:expression(' + domTxt + '.clientHeight)' : '';
 
 		maskWrap.style.cssText = sizeCss + ';position:fixed;z-index:'+zIndex + ';top:0;left:0;overflow:hidden;' + ie6Css;
-		mask.style.cssText = 'height:100%;background:' + config.background + ';filter:alpha(opacity=0);opacity:0;';
+		mask.style.cssText = 'height:100%;background:' + config.background + ';filter:alpha(opacity=50);opacity:.5;';
 	},
 
 	/**
@@ -102,6 +124,17 @@ Dialog.prototype = {
 	unlock : function(){
 	
 	},
+
+	_getWrap : function(){
+		var wrap = document.createElement('div'),
+			body = document.body;
+		wrap.style.cssText = 'position:absolute;left:0;top:0;';
+		wrap.innerHTML = this._template;
+		body.insertBefore(wrap, body.firstChild);
+		return wrap;
+	}
 };
 
-Dialog.setting = {};
+Dialog.setting = {
+	background : '#000'
+};
