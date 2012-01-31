@@ -21,7 +21,23 @@ function Dialog(config, okFn, cancelFn){
 
 Dialog.prototype = {
 	_init : function(){
+
+
+		// 显示对话框
+		this.show();
+
+		// 设标题
+		this.title();
+		
+		// 设内容
+		this.content();
+
+		// 设尺寸
+		this.size();
+
+		// 显示遮罩层
 		this.lock();
+
 	},
 		
 	/**
