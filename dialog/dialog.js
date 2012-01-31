@@ -16,11 +16,13 @@ function Dialog(config, okFn, cancelFn){
 	}
 	this.config = config;
 
-	this.lock();
+	this._init();
 }
 
 Dialog.prototype = {
-	_init : function(){},
+	_init : function(){
+		this.lock();
+	},
 		
 	/**
 	* …Ë÷√ƒ⁄»›
@@ -51,12 +53,12 @@ Dialog.prototype = {
 			top = top || 0,
 			config = self.config,
 			wrap = self.wrap,
-			docLeft = ,
-			docTop = ,
-			winWidth = ,
-			winHeight = ,
-			wrapWidth = wrap.offsetWidth,
-			wrapHeight = wrap.offsetHeight,
+			docLeft = QZFL.dom.getScrollLeft(),
+			docTop = QZFL.dom.getScrollTop(),
+			winWidth = 0,
+			winHeight = 0,
+			ow = wrap.offsetWidth,
+			oh = wrap.offsetHeight,
 			style = wrap.style;
 
 		style.top = top + 'px';
